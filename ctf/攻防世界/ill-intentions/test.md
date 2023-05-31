@@ -153,6 +153,18 @@ function hook_ctf_java() {
     });
 }
 
+function hook_ctf_java1(){
+    Java.perform(function (){
+        let IsThisTheRealOne = Java.use("com.example.application.IsThisTheRealOne");
+        IsThisTheRealOne["perhapsThis"].implementation = function (str, str2, str3) {
+            console.log(`IsThisTheRealOne.perhapsThis is called: str=${str}, str2=${str2}, str3=${str3}`);
+            let result = this["perhapsThis"](str, str2, str3);
+            console.log(`IsThisTheRealOne.perhapsThis result=${result}`);
+            return result;
+        };
+    });
+}
+
 function hook_ctf_native() {
     function getjstring(jstr) {
         return Java.vm.getEnv().getStringUtfChars(jstr, null).readCString();
@@ -201,9 +213,9 @@ function hook_ctf_native() {
     });
 }
 
-
 function main() {
     hook_ctf_java();
+    hook_ctf_java1();
     hook_ctf_native();
 }
 
